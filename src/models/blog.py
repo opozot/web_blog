@@ -1,8 +1,9 @@
 import uuid
 import datetime
-
 from src.common.database import Database
 from src.models.post import Post
+
+__author__ = 'jslvtr'
 
 
 class Blog(object):
@@ -14,9 +15,6 @@ class Blog(object):
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def new_post(self, title, content, date=datetime.datetime.utcnow()):
-        title = input("Enter post title: ")
-        content = input("Enter post content: ")
-        date = input("Enter post date, or leave blank for today(in format DDMMYY): ")
         post = Post(blog_id=self._id,
                     title=title,
                     content=content,

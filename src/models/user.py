@@ -1,10 +1,10 @@
 import datetime
 import uuid
-
 from flask import session
-
 from src.common.database import Database
 from src.models.blog import Blog
+
+__author__ = 'jslvtr'
 
 
 class User(object):
@@ -27,25 +27,29 @@ class User(object):
 
     @staticmethod
     def login_valid(email, password):
+        # Check whether a user's email matches the password they sent us
         user = User.get_by_email(email)
         if user is not None:
-            return user.password == password  # check the password
+            # Check the password
+            return user.password == password
         return False
 
     @classmethod
     def register(cls, email, password):
         user = cls.get_by_email(email)
-        if user is None:  # user does not exist
+        if user is None:
+            # User doesn't exist, so we can create it
             new_user = cls(email, password)
             new_user.save_to_mongo()
             session['email'] = email
             return True
-        else:  # user exists
+        else:
+            # User exists :(
             return False
 
     @staticmethod
     def login(user_email):
-        # Login_valid has already been called, we stored the email in the session
+        # login_valid has already been called
         session['email'] = user_email
 
     @staticmethod
@@ -60,6 +64,7 @@ class User(object):
                     title=title,
                     description=description,
                     author_id=self._id)
+
         blog.save_to_mongo()
 
     @staticmethod
@@ -73,7 +78,7 @@ class User(object):
         return {
             "email": self.email,
             "_id": self._id,
-            "password": self.password  # not safe to send over networkk
+            "password": self.password
         }
 
     def save_to_mongo(self):

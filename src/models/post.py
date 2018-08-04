@@ -1,6 +1,8 @@
 import uuid
-import datetime
 from src.common.database import Database
+import datetime
+
+__author__ = 'jslvtr'
 
 
 class Post(object):
@@ -14,7 +16,8 @@ class Post(object):
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def save_to_mongo(self):
-        Database.insert(collection='posts', data=self.json())
+        Database.insert(collection='posts',
+                        data=self.json())
 
     def json(self):
         return {
@@ -26,13 +29,11 @@ class Post(object):
             'created_date': self.created_date
         }
 
-    # this will get one specific post from the db
     @classmethod
     def from_mongo(cls, id):
         post_data = Database.find_one(collection='posts', query={'_id': id})
         return cls(**post_data)
 
-    # this will return a list of posts from the db
     @staticmethod
     def from_blog(id):
         return [post for post in Database.find(collection='posts', query={'blog_id': id})]

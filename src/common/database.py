@@ -1,3 +1,5 @@
+__author__ = 'jslvtr'
+
 import pymongo
 
 
@@ -5,10 +7,10 @@ class Database(object):
     URI = "mongodb://127.0.0.1:27017"
     DATABASE = None
 
-    @staticmethod  # this method belongs to the whole class
-    def initialize():  # not only to the instance
+    @staticmethod
+    def initialize():
         client = pymongo.MongoClient(Database.URI)
-        Database.DATABASE = client['udemy']
+        Database.DATABASE = client['fullstack']
 
     @staticmethod
     def insert(collection, data):
